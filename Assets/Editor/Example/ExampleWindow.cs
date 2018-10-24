@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 using UnityEditor;
-using System;
-using System.Reflection;
+using UnityEngine;
 
 public class ExampleWindow : EditorWindow
 {
@@ -17,14 +14,24 @@ public class ExampleWindow : EditorWindow
 
     private void OnGUI()
     {
+        DrawGetTypeButton();
+        DrawCrossAssemblyButton();
+    }
+
+    static void DrawGetTypeButton()
+    {
         if (GUILayout.Button("从Editor文件夹里用GetType获取普通文件夹里的脚本的类"))
         {
             Debug.Log(Type.GetType("GetTypeInNormalFolder"));
         }
+    }
+
+    static void DrawCrossAssemblyButton()
+    {
         if (GUILayout.Button("从Editor文件夹里先获取程序集再通过GetType获取普通文件夹里的脚本的类"))
         {
-            Assembly currentAssembly = Assembly.GetAssembly(typeof(NormalCalibration));
-            Debug.Log(currentAssembly.GetType("NormalTarget"));
+            Type type = CrossAssemblysGetType.GetType("NormalTarget");
+            Debug.Log(type);
         }
     }
 }
